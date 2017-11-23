@@ -1,0 +1,24 @@
+{
+  "name": "angular5-metronome",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Kazuyoshi Kawakami <saruyama.monki@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/monkick/angular5-metronome",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/assets/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.2.0",
+    "app-layout": "PolymerElements/app-layout#^2.0.4",
+    "iron-selector": "PolymerElements/iron-selector#^2.0.1",
+    "iron-icons": "PolymerElements/iron-icons#^2.0.1"
+  }
+}

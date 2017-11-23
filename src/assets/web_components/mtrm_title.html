@@ -1,0 +1,52 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="mtrm-title">
+    <template>
+        <style>
+            :host {
+                --font-color      : #222222;
+                --font-family     : 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+                --font-weight     : 600;
+
+                --text-decoration : none;
+
+                --link-color      : #ffffff;
+            }
+
+            a {
+                color           : var(--link-color);
+                text-decoration : var(--text-decoration);
+            }
+
+            .mtrm-title {
+                color       : var(--font-color);
+                font-family : var(--font-family);
+                font-weight : var(--font-weight);
+            }
+        </style>
+
+        <a href="[[link]]">
+            <span class="mtrm-title">[[title]]</span>
+            <slot name="icon"></slot>
+        </a>
+
+    </template>
+    <script>
+        class MtrmTitle extends Polymer.Element {
+            static get is () { return 'mtrm-title'; }
+
+            static get properties () {
+                return {
+                    link : {
+                        type: String,
+                    },
+                    title: {
+                        type: String,
+                    },
+                };
+            }
+        }
+
+        window.customElements.define (MtrmTitle.is, MtrmTitle);
+    </script>
+</dom-module>
