@@ -1,0 +1,51 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="mtrm-card">
+    <template>
+        <style>
+            :host {
+                --margin           : 20px 15px 0;
+                --margin-sp        : 3vh 0 0;
+                --font-color       : #212121;
+                --background-color : #ffffff;
+                --border-radius    : 2px;
+                --box-shadow       : 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+
+                --inner-padding    : 15px;
+            }
+
+            .main-wrapper {
+                position         : relative;
+                margin           : var(--margin);
+                color            : var(--font-color);
+                background-color : var(--background-color);
+                border-radius    : var(--border-radius);
+                box-shadow       : var(--box-shadow);
+            }
+
+            @media (max-width : 767px) {
+                .main-wrapper {
+                    margin : var(--margin-sp);
+                }
+            }
+
+            .main-wrapper .content-wrapper {
+                padding : var(--inner-padding);
+            }
+        </style>
+
+        <div class="main-wrapper">
+            <div class="content-wrapper">
+                <slot></slot>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        class MtrmCard extends Polymer.Element {
+            static get is () { return 'mtrm-card'; }
+        }
+
+        window.customElements.define (MtrmCard.is, MtrmCard);
+    </script>
+</dom-module>

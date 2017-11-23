@@ -1,0 +1,94 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="mtrm-button-play">
+    <template>
+        <style>
+            :host {
+
+            }
+
+            .fancy {
+                background-color : var(--color-fancy);
+            }
+
+            .btn-play {
+                width : fit-content;
+            }
+
+            .btn-play iron-icon {
+                color : #ffffff;
+            }
+        </style>
+
+        <paper-button id="playButton" raised class="fancy btn btn-play" on-click="clickPlayButton">
+            <template is="dom-if" if="{{isPlayState}}">
+                <iron-icon icon="av:stop"></iron-icon>
+            </template>
+            <template is="dom-if" if="{{!isPlayState}}">
+                <iron-icon icon="av:play-arrow"></iron-icon>
+            </template>
+        </paper-button>
+    </template>
+    <script>
+        class MtrmButtonPlay extends Polymer.Element {
+            static get is () { return 'mtrm-button-play'; }
+
+            static get properties () {
+                return {
+                    cnt           : {
+                        type    : Number,
+                        notify  : true,
+                        observer: '_observerCount',
+                    },
+                    isPlayState   : {
+                        type    : Boolean,
+                        value   : false,
+                        notify  : true,
+                        observer: '_observerPlay',
+                    },
+                    animationTempo: {
+                        type: Object,
+                    },
+                };
+            }
+
+            ready () {
+                super.ready ();
+
+                this.animationTempo = this.$.playButton.animate (
+                    {transform: ['scale(1.1, 1.1)', 'scale(1.0, 1.0)']},
+                    {duration: 100}
+                );
+            }
+
+            clickPlayButton () {
+                this.isPlayState = !this.isPlayState;
+                this.dispatchEvent (new CustomEvent ('play'));
+            }
+
+            _observerPlay (least, past) {
+                if (least) {
+                    // animation execute
+                    // this.animationTempo.play ();
+                }
+                else {
+                    if (this.animationTempo) {
+                        // animation stop
+                        this.animationTempo.cancel ();
+                    }
+                }
+            }
+
+            _observerCount (least, past) {
+                if (this.animationTempo) {
+                    this.animationTempo.play ();
+                }
+            }
+        }
+
+        window.customElements.define (MtrmButtonPlay.is, MtrmButtonPlay);
+    </script>
+</dom-module>

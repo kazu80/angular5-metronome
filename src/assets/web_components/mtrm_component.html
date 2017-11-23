@@ -1,0 +1,179 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="./mtrm_button_play.html">
+<link rel="import" href="./mtrm_card.html">
+<link rel="import" href="./mtrm_display.html">
+<link rel="import" href="./mtrm_lifting.html">
+<dom-module id="mtrm-component">
+    <template>
+        <style>
+            :host {
+                --wrapper-height       : 210px;
+                --wrapper-height-sp    : 150px;
+                --display-width        : 250px;
+                --display-width-sp     : 100px;
+                --display-font-size    : 34px;
+                --display-font-size-sp : 6vw;
+                --text-color           : #3f51b5;
+                --text-font-wight      : bold;
+                --color-fancy          : #3f51b5;
+            }
+
+            .fancy {
+                background-color : var(--color-fancy);
+            }
+
+            .wrapper {
+                display         : flex;
+                flex-direction  : column;
+                justify-content : space-between;
+                width           : 100%;
+                height          : var(--wrapper-height);
+            }
+
+            @media (max-width : 767px) {
+                .wrapper {
+                    height : var(--wrapper-height-sp);
+                }
+            }
+
+            ul {
+                display         : flex;
+                flex-direction  : row;
+                justify-content : space-around;
+                padding         : 0;
+                margin          : 0;
+                width           : var(--display-width);
+                font-size       : var(--display-font-size);
+            }
+
+            @media (max-width : 767px) {
+                ul {
+                    width     : var(--display-width-sp);
+                    font-size : var(--display-font-size-sp);
+                }
+            }
+
+            ul li {
+                list-style : none;
+            }
+
+            .active {
+                color       : var(--text-color);
+                font-weight : var(--text-font-wight);
+            }
+
+            .slider-wrapper {
+                display         : flex;
+                flex-direction  : row;
+                justify-content : space-between;
+                width           : 100%;
+            }
+
+            .slider-wrapper paper-slider {
+                width : 100%;
+            }
+        </style>
+
+        <mtrm-card>
+            <div class="wrapper">
+                <!-- title -->
+                <template is="dom-if" if="{{!isTypePlay}}">
+                    <div class="title">[[title]]</div>
+                </template>
+                <!-- /title -->
+
+                <!-- display -->
+                <template is="dom-if" if="{{!isTypePlay}}">
+                    <mtrm-display add-class="center">
+                        <template is="dom-if" if="{{isTypeSlider}}">
+                            [[param]]
+                        </template>
+                        <template is="dom-if" if="{{isTypeLifting}}">
+                            <ul>
+                                <template is="dom-repeat" items="{{params}}">
+                                    <template is="dom-if" if="{{item.active}}">
+                                        <li class="active">[[item.id]]</li>
+                                    </template>
+                                    <template is="dom-if" if="{{!item.active}}">
+                                        <li>[[item.id]]</li>
+                                    </template>
+                                </template>
+                            </ul>
+                        </template>
+                    </mtrm-display>
+                </template>
+                <!-- /display -->
+
+                <!-- action -->
+                <template is="dom-if" if="{{isTypeLifting}}">
+                    <mtrm-lifting params="[[params]]" param="{{param}}"></mtrm-lifting>
+                </template>
+
+                <template is="dom-if" if="{{isTypeSlider}}">
+                    <div class="slider-wrapper">
+                        <paper-slider pin="true" value="{{param}}" min="{{params.min}}" max="{{params.max}}" step="{{params.step}}"></paper-slider>
+                    </div>
+                </template>
+
+                <template is="dom-if" if="{{isTypePlay}}">
+                    <mtrm-button-play id="playButton" cnt="{{param}}" on-dom-change="_onDomChange"></mtrm-button-play>
+                </template>
+                <!-- /action -->
+            </div>
+        </mtrm-card>
+    </template>
+    <script>
+        class MtrmComponent extends Polymer.Element {
+            static get is () { return 'mtrm-component'; }
+
+            static get properties () {
+                return {
+                    title : {
+                        type: String,
+                    },
+                    params: {
+                        type  : Array,
+                        notify: true,
+                    },
+                    param : {
+                        type  : Number,
+                        notify: true,
+                    },
+                    type  : {
+                        type    : String,
+                        value   : 'lifting',
+                        observer: '_observerType',
+                    },
+                };
+            }
+
+            constructor () {
+                super ();
+            }
+
+            ready () {
+                super.ready ();
+
+                console.log (this.param);
+            }
+
+            _onDomChange () {
+                const el = this.shadowRoot.querySelector ('#playButton');
+                if (el) {
+                    el.addEventListener ('play', (e) => {
+                        this.dispatchEvent (new CustomEvent ('play'));
+                    });
+                }
+            }
+
+            _observerType (val) {
+                this.isTypeLifting = val === 'lifting';
+                this.isTypeSlider = val === 'slider';
+                this.isTypePlay = val === 'play';
+            }
+        }
+
+        window.customElements.define (MtrmComponent.is, MtrmComponent);
+    </script>
+</dom-module>

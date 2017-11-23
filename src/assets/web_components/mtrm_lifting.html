@@ -1,0 +1,77 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="mtrm-lifting">
+    <template>
+        <style>
+            :host {
+
+            }
+
+            .action-wrapper {
+                display         : flex;
+                flex-direction  : row;
+                justify-content : space-between;
+                width           : 100%;
+            }
+
+            .action-wrapper paper-button.fancy {
+                background-color : var(--color-fancy);
+                color            : #ffffff;
+            }
+
+            .action-wrapper paper-button.btn {
+                margin : 0;
+                width  : 48%;
+            }
+
+            @media (max-width : 767px) {
+                .action-wrapper paper-button.btn {
+                    min-width : inherit;
+                }
+            }
+        </style>
+
+        <div class="action-wrapper">
+            <paper-button raised class="fancy btn btn-back" on-click="back">
+                <iron-icon icon="icons:chevron-left"></iron-icon>
+            </paper-button>
+            <paper-button raised class="fancy btn btn-next" on-click="next">
+                <iron-icon icon="icons:chevron-right"></iron-icon>
+            </paper-button>
+        </div>
+    </template>
+
+    <script>
+        class MtrmLifting extends Polymer.Element {
+            static get is () { return 'mtrm-lifting'; }
+
+            static get properties () {
+                return {
+                    params: {
+                        type: Array,
+                    },
+                    param : {
+                        type  : Number,
+                        notify: true,
+                    },
+                };
+            }
+
+            back () {
+                if (this.param > 1) {
+                    this.param = this.param - 1;
+                }
+            }
+
+            next () {
+                if (this.param < this.params.length) {
+                    this.param = this.param + 1;
+                }
+            }
+        }
+
+        window.customElements.define (MtrmLifting.is, MtrmLifting);
+    </script>
+</dom-module>

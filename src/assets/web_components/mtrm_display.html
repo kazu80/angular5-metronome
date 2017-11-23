@@ -1,0 +1,86 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="mtrm-display">
+    <template>
+        <style>
+            :host {
+
+            }
+
+            .display-wrapper {
+                display       : flex;
+                align-items   : center;
+                padding       : 10px;
+                height        : 80px;
+                border        : 1px solid #888888;
+                border-radius : 4px;
+            }
+
+            @media (max-width : 767px) {
+                .display-wrapper {
+                    height : 6vh;
+                }
+            }
+
+            .display-wrapper.center {
+                justify-content : center;
+            }
+
+            .display-wrapper.right {
+                justify-content : flex-end;
+            }
+
+            .olive {
+                background : #3c3b3f; /* fallback for old browsers */
+                background : -webkit-linear-gradient(to top, #605c3c, #3c3b3f); /* Chrome 10-25, Safari 5.1-6 */
+                background : linear-gradient(to top, #605c3c, #3c3b3f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            .gray {
+                background : #bdc3c7; /* fallback for old browsers */
+                background : -webkit-linear-gradient(to top, #2c3e50, #bdc3c7); /* Chrome 10-25, Safari 5.1-6 */
+                background : linear-gradient(to top, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            .display-wrapper .display {
+                font-size : 65px;
+                color     : #ffffff;
+            }
+
+            @media (max-width : 767px) {
+                .display-wrapper .display {
+                    font-size : 9.5vw;
+                }
+            }
+
+        </style>
+
+        <div class$="gray display-wrapper [[addClass]]">
+            <div class="display">
+                <slot></slot>
+            </div>
+        </div>
+
+    </template>
+    <script>
+        class MtrmDisplay extends Polymer.Element {
+            static get is () { return 'mtrm-display'; }
+
+            static get properties () {
+                return {
+                    center: {
+                        type : Boolean,
+                        value: false,
+                    },
+
+                    addClass: {
+                        type : String,
+                        value: 'right',
+                    },
+                };
+            }
+        }
+
+        window.customElements.define (MtrmDisplay.is, MtrmDisplay);
+    </script>
+</dom-module>
