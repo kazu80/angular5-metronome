@@ -4,7 +4,7 @@
 <div class="metronome">
     <div class="row metronome-content top">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 column">
-            <mtrm-component title="TEMPO" params="{{params}}" param="{{param}}" type="slider" (change)="change($event)"></mtrm-component>
+            <mtrm-component title="TEMPO" params="{{tempos}}" param="{{tempo}}" type="slider" (change)="changeTempo($event)"></mtrm-component>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 column">
             <!--

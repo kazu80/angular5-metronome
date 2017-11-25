@@ -6,22 +6,22 @@ import {Component, OnInit} from '@angular/core';
     styleUrls  : ['./top.component.scss']
 })
 export class TopComponent implements OnInit {
-    param: number;
-    params: string;
+    tempo: number;
+    tempos: string;
 
     constructor() {
     }
 
     ngOnInit() {
-        this.param  = 100;
-        this.params = JSON.stringify({
+        this.tempo  = 100;
+        this.tempos = JSON.stringify({
             min : 1,
             max : 255,
             step: 1,
         });
     }
 
-    change(val) {
+    changeTempo(val) {
         const value = val.detail.value;
         if (value) {
             console.log(value);
