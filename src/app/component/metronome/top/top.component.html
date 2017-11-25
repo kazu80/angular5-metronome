@@ -4,12 +4,10 @@
 <div class="metronome">
     <div class="row metronome-content top">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 column">
-            <mtrm-component title="TEMPO" params="{{tempos}}" param="{{tempo}}" type="slider" (change)="changeTempo($event)"></mtrm-component>
+            <mtrm-component title="TEMPO" type="slider" params="{{tempos}}" param="{{tempo}}" (change)="changeTempo($event)"></mtrm-component>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 column">
-            <!--
-            <app-beat></app-beat>
-            -->
+            <mtrm-component title="BEAT" type="lifting" params="{{beats}}" param="{{beat}}"></mtrm-component>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 column">
             <!--

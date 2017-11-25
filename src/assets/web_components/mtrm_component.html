@@ -155,8 +155,6 @@
 
             ready () {
                 super.ready ();
-
-                this.params = JSON.parse (this.params);
             }
 
             _onDomChange () {
@@ -175,9 +173,13 @@
             }
 
             _observerParams (latest, old) {
+                if (typeof this.params === 'string') {
+                    this.params = JSON.parse (this.params);
+                }
+
                 if (this.isTypeLifting) {
                     if (old) {
-                        const offIndex = old - 1;
+                        const offIndex = Number (old) - 1;
 
                         // パラメーターの変更
                         if (typeof this.params.splice === 'function') {
@@ -194,6 +196,7 @@
 
                     // パラメーターの変更
                     if (typeof this.params.splice === 'function') {
+                        // active paramの変更
                         let latestParam = this.params[onIndex];
                         latestParam.active = true;
 
