@@ -61,13 +61,13 @@
 
             back () {
                 if (this.param > 1) {
-                    this.param = this.param - 1;
+                    this.param = Number (this.param) - 1;
                 }
             }
 
             next () {
                 if (this.param < this.params.length) {
-                    this.param = this.param + 1;
+                    this.param = Number (this.param) + 1;
                 }
             }
         }

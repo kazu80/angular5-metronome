@@ -10,6 +10,8 @@ export class TopComponent implements OnInit {
     tempos: string;
     beat: number;
     beats: string;
+    sound: number;
+    sounds: string;
 
     constructor() {
     }
@@ -31,6 +33,13 @@ export class TopComponent implements OnInit {
             {id: 6, active: false},
             {id: 7, active: false},
             {id: 8, active: false},
+        ]);
+        this.sound  = 1;
+        this.sounds = JSON.stringify([
+            {id: 1, file: '/assets/sound/s_01.mp3', active: false},
+            {id: 2, file: '/assets/sound/s_02.mp3', active: false},
+            {id: 3, file: '/assets/sound/s_03.mp3', active: false},
+            {id: 4, file: '/assets/sound/s_04.mp3', active: false},
         ]);
     }
 
