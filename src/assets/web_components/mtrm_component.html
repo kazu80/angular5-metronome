@@ -133,13 +133,14 @@
                         type: String,
                     },
                     params: {
-                        type  : String,
-                        notify: true,
+                        type    : String,
+                        notify  : true,
+                        observer: '_observerParams',
                     },
                     param : {
                         type    : Number,
                         notify  : true,
-                        observer: '_observerParams',
+                        observer: '_observerParam',
                     },
                     type  : {
                         type    : String,
@@ -173,6 +174,10 @@
             }
 
             _observerParams (latest, old) {
+                console.log (latest);
+            }
+
+            _observerParam (latest, old) {
                 latest = Number (latest);
                 old = Number (old);
 
@@ -212,12 +217,9 @@
                     this.notifySplices ('params', []);
 
                     //
-                    const detail = {
-                        'detail': {
-                            'selected': latest,
-                        }
-                    };
-                    this.dispatchEvent (new CustomEvent ('change', detail));
+                    this.dispatchEvent (new CustomEvent ('change', {
+                        'detail': {'value': latest}
+                    }));
                 } else if (this.isTypeSlider) {
                     this.dispatchEvent (new CustomEvent ('change', {
                         'detail': {'value': latest}
