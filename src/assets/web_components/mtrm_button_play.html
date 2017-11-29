@@ -43,6 +43,11 @@
                         notify  : true,
                         observer: '_observerCount',
                     },
+                    params        : {
+                        type    : String,
+                        notify  : true,
+                        observer: '_observerParams',
+                    },
                     isPlayState   : {
                         type    : Boolean,
                         value   : false,
@@ -52,6 +57,18 @@
                     animationTempo: {
                         type: Object,
                     },
+                    tempo         : {
+                        type: Number
+                    },
+                    beat          : {
+                        type: Number
+                    },
+                    sound_file    : {
+                        type: String
+                    },
+                    volume        : {
+                        type: Number
+                    }
                 };
             }
 
@@ -86,6 +103,17 @@
                 if (this.animationTempo) {
                     this.animationTempo.play ();
                 }
+            }
+
+            _observerParams (latest, past) {
+                if (typeof latest === 'string') {
+                    latest = JSON.parse (latest);
+                }
+
+                this.tempo = latest[0].tempo;
+                this.beat = latest[0].beat;
+                this.sound_file = latest[0].sound_file;
+                this.volume = latest[0].volume;
             }
         }
 

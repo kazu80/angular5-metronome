@@ -57,7 +57,11 @@ export class TopComponent implements OnInit {
             {id: 9, active: false},
         ]);
         this.play_params = JSON.stringify([
-            {tempo: this.tempo, beat: this.beat, sound: this.sound, volume: this.volume}
+            {tempo        : this.tempo,
+                beat      : this.beat,
+                sound_file: this.getSoundFile(this.sounds, this.sound),
+                volume    : this.volume
+            }
         ]);
     }
 
@@ -66,7 +70,11 @@ export class TopComponent implements OnInit {
         if (value) {
             this.tempo       = value;
             this.play_params = JSON.stringify([
-                {tempo: this.tempo, beat: this.beat, sound: this.sound, volume: this.volume}
+                {tempo        : this.tempo,
+                    beat      : this.beat,
+                    sound_file: this.getSoundFile(this.sounds, this.sound),
+                    volume    : this.volume
+                }
             ]);
         }
     }
@@ -76,7 +84,11 @@ export class TopComponent implements OnInit {
         if (value) {
             this.beat        = value;
             this.play_params = JSON.stringify([
-                {tempo: this.tempo, beat: this.beat, sound: this.sound, volume: this.volume}
+                {tempo        : this.tempo,
+                    beat      : this.beat,
+                    sound_file: this.getSoundFile(this.sounds, this.sound),
+                    volume    : this.volume
+                }
             ]);
         }
     }
@@ -86,7 +98,11 @@ export class TopComponent implements OnInit {
         if (value) {
             this.sound       = value;
             this.play_params = JSON.stringify([
-                {tempo: this.tempo, beat: this.beat, sound: this.sound, volume: this.volume}
+                {tempo        : this.tempo,
+                    beat      : this.beat,
+                    sound_file: this.getSoundFile(this.sounds, this.sound),
+                    volume    : this.volume
+                }
             ]);
         }
     }
@@ -96,8 +112,19 @@ export class TopComponent implements OnInit {
         if (value) {
             this.volume      = value;
             this.play_params = JSON.stringify([
-                {tempo: this.tempo, beat: this.beat, sound: this.sound, volume: this.volume}
+                {tempo        : this.tempo,
+                    beat      : this.beat,
+                    sound_file: this.getSoundFile(this.sounds, this.sound),
+                    volume    : this.volume
+                }
             ]);
         }
     }
+
+    getSoundFile(sounds, sound) {
+        if (typeof sounds === 'string') {
+            return JSON.parse(sounds)[sound - 1].file;
+        }
+    }
+
 }

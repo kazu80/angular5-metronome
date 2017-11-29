@@ -117,7 +117,7 @@
                 </template>
 
                 <template is="dom-if" if="{{isTypePlay}}">
-                    <mtrm-button-play id="playButton" cnt="{{param}}" on-dom-change="_onDomChange"></mtrm-button-play>
+                    <mtrm-button-play id="playButton" cnt="{{param}}" params="{{params}}" on-dom-change="_onDomChange"></mtrm-button-play>
                 </template>
                 <!-- /action -->
             </div>
@@ -174,7 +174,6 @@
             }
 
             _observerParams (latest, old) {
-                console.log (latest);
             }
 
             _observerParam (latest, old) {
