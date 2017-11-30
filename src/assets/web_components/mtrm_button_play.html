@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../bower_components/iron-icons/av-icons.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/audio-player/audio-player.html">
 
 <dom-module id="mtrm-button-play">
     <template>
@@ -22,7 +23,8 @@
                 color : #ffffff;
             }
         </style>
-
+        <audio-player src="{{sound_file}}" play="{{isPlaySound}}" volume="{{volume}}"></audio-player>
+        <audio-player src="{{sound_file_beat}}" play="{{isPlaySoundBeat}}" volume="{{volume}}"></audio-player>
         <paper-button id="playButton" raised class="fancy btn btn-play" on-click="clickPlayButton">
             <template is="dom-if" if="{{isPlayState}}">
                 <iron-icon icon="av:stop"></iron-icon>
@@ -48,26 +50,40 @@
                         notify  : true,
                         observer: '_observerParams',
                     },
-                    isPlayState   : {
+                    isPlayState    : {
                         type    : Boolean,
                         value   : false,
                         notify  : true,
                         observer: '_observerPlay',
                     },
-                    animationTempo: {
+                    animationTempo : {
                         type: Object,
                     },
-                    tempo         : {
+                    tempo          : {
                         type: Number
                     },
-                    beat          : {
+                    beat           : {
                         type: Number
                     },
-                    sound_file    : {
+                    sound_file     : {
                         type: String
                     },
-                    volume        : {
+                    sound_file_beat: {
+                        type: String
+                    },
+                    volume         : {
                         type: Number
+                    },
+                    interval       : {
+                        type: Number
+                    },
+                    isPlaySound    : {
+                        type : Boolean,
+                        value: false,
+                    },
+                    isPlaySoundBeat: {
+                        type : Boolean,
+                        value: false,
                     }
                 };
             }
@@ -89,13 +105,29 @@
             _observerPlay (least, past) {
                 if (least) {
                     // animation execute
-                    // this.animationTempo.play ();
+                    //this.animationTempo.play ();
+
+                    // count
+                    let count = 1;
+
+                    // sound
+                    this.interval = setInterval (() => {
+                        //
+                        count % this.beat === 0 ?
+                            this.isPlaySoundBeat = true :
+                            this.isPlaySound = true;
+
+                        count++;
+                    }, 60 * 1000 / this.tempo);
                 }
                 else {
                     if (this.animationTempo) {
                         // animation stop
                         this.animationTempo.cancel ();
                     }
+
+                    //
+                    clearInterval (this.interval);
                 }
             }
 
@@ -113,6 +145,7 @@
                 this.tempo = latest[0].tempo;
                 this.beat = latest[0].beat;
                 this.sound_file = latest[0].sound_file;
+                this.sound_file_beat = latest[0].sound_file_beat;
                 this.volume = latest[0].volume;
             }
         }
