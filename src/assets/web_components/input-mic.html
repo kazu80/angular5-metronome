@@ -1,0 +1,21 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="input-mic">
+    <template></template>
+    <script>
+        class InputMic extends Polymer.Element {
+            static get is () { return 'input-mic'; }
+
+            static get properties () {
+                return {}
+            }
+
+            ready () {
+                super.ready ();
+
+            }
+        }
+
+        window.customElements.define (InputMic.is, InputMic);
+    </script>
+</dom-module>
