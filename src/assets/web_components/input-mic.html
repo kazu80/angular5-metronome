@@ -7,13 +7,110 @@
             static get is () { return 'input-mic'; }
 
             static get properties () {
-                return {}
+                return {
+                    context     : {
+                        type : Object,
+                        value: new AudioContext ()
+                    },
+                    gainNode    : {
+                        type: Object,
+                    },
+                    distortion  : {
+                        type: Object,
+                    },
+                    biquadFilter: {
+                        type: Object,
+                    }
+                }
             }
 
             ready () {
                 super.ready ();
 
+                this.gainNode = this.context.createGain ();
+                this.distortion = this.context.createWaveShaper ();
+                this.biquadFilter = this.context.createBiquadFilter ();
+
+                /*
+                 * Permission
+                navigator.permissions.query({name: 'microphone'}).then((result) => {
+                    switch (result.state) {
+                        case 'granted':
+                            console.log('granted');
+                            break;
+                        case 'prompt':
+                            console.log('prompt');
+                            break;
+                        case 'denied':
+                            console.log('denied');
+                            break;
+                    }
+
+                    result.onchange = () => console.log('permission change');
+                });
+                */
+
+                this.gainNode.gain.value = 0.9;
+
+                this.distortion.connect (this.biquadFilter);
+                this.biquadFilter.connect (this.gainNode);
+                this.gainNode.connect (this.context.destination);
+
+                // this.voiceChange();
+                this.makeDistortionCurve ();
+
+                navigator.getUserMedia ({audio: true}, stream => {
+                    const source = this.context.createMediaStreamSource (stream);
+                    source.connect (this.distortion);
+                }, () => console.log ('error'));
             }
+
+            voiceChange () {
+
+                console.log (this.distortion);
+
+                //const distortion = this.context.createWaveShaper();
+                //distortion.curve = new Float32Array;
+
+                this.distortion.curve = new Float32Array ();
+
+                console.log (1);
+
+                this.biquadFilter.gain.value = 0; // reset the effects each time the voiceChange function is run
+
+                const voiceSetting = 'distortion';
+                //const voiceSetting = 'biquad';
+                //const voiceSetting = 'off';
+
+                if (voiceSetting === 'distortion') {
+                    this.distortion.curve = makeDistortionCurve (400); // apply distortion to sound using waveshaper node
+                } else if (voiceSetting === 'biquad') {
+                    this.biquadFilter.type = 'lowshelf';
+                    this.biquadFilter.frequency.value = 1000;
+                    this.biquadFilter.gain.value = 25; // apply lowshelf filter to sounds using biquad
+                } else if (voiceSetting === 'off') {
+                    console.log ('Voice settings turned off'); // do nothing, as off option was chosen
+                }
+
+            }
+
+            makeDistortionCurve (amount) {
+                amount = 50;
+
+                var k = typeof amount === 'number' ? amount : 50,
+                    n_samples = 44100,
+                    curve = new Float32Array (n_samples),
+                    deg = Math.PI / 180,
+                    i = 0,
+                    x;
+                for (; i < n_samples; ++i) {
+                    x = i * 2 / n_samples - 1;
+                    curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs (x));
+                }
+
+                this.distortion.curve = curve;
+                this.distortion.oversample = '4x';
+            };
         }
 
         window.customElements.define (InputMic.is, InputMic);

@@ -3,3 +3,13 @@ body {
     background-color : #1976d2;
     background       : linear-gradient(145deg, #0d47a1, #42a5f5);
 }
+
+/*
+#play {
+    --wrapper-height : auto;
+}
+
+#sound {
+    --display-font-size : 70px;
+}
+*/
