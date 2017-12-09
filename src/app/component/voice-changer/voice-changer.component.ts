@@ -19,12 +19,14 @@ export class VoiceChangerComponent implements OnInit {
     private sonogramSmoothing: number;
 
     private validGranSizes: Array<number>;
-    private grainSize: number;
+            grainSize: number;
+            grainSizeKey: number;
             pitchRatio: number;
             overlapRatio: number;
 
     pitchRatioSetting: string;
     overlapRatioSetting: string;
+    grainSizeSetting: string;
 
     constructor() {
         this.spectrumFFTSize   = 128;
@@ -33,7 +35,8 @@ export class VoiceChangerComponent implements OnInit {
         this.sonogramSmoothing = 0;
 
         this.validGranSizes = [256, 512, 1024, 2048, 4096, 8192];
-        this.grainSize      = this.validGranSizes[1];
+        this.grainSizeKey   = 2;
+        this.grainSize      = this.validGranSizes[this.grainSizeKey - 1];
         this.pitchRatio     = 1.0;
         this.overlapRatio   = 0.50;
 
@@ -48,6 +51,15 @@ export class VoiceChangerComponent implements OnInit {
             max : 0.75,
             step: 0.01,
         });
+
+        this.grainSizeSetting = JSON.stringify([
+            {id: 1, active: false},
+            {id: 2, active: false},
+            {id: 3, active: false},
+            {id: 4, active: false},
+            {id: 5, active: false},
+            {id: 6, active: false},
+        ]);
     }
 
     ngOnInit() {
@@ -87,7 +99,7 @@ export class VoiceChangerComponent implements OnInit {
 
             // Connectしないと音は出ない
             this.audioSources[0].connect(this.pitchShifterProcessor);
-            // this.audioSources[0].start(0);
+            this.audioSources[0].start(0);
         });
 
         bufferLoader2.load();
@@ -174,5 +186,14 @@ export class VoiceChangerComponent implements OnInit {
         if (value) {
             this.overlapRatio = value;
         }
+    }
+
+    changeGrainSize(val) {
+        const value = val.detail.value;
+        if (value) {
+            this.grainSize = this.validGranSizes[value - 1];
+        }
+
+        console.log(this.grainSize);
     }
 }

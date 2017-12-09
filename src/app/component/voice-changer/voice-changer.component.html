@@ -9,22 +9,13 @@
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 column">
             <mtrm-component title="Overlap ratio" type="slider" params="{{overlapRatioSetting}}" param="{{overlapRatio}}" (change)="changeOverlapRatio($event)"></mtrm-component>
         </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 column">
+            <mtrm-component title="Grain size" type="lifting" params="{{grainSizeSetting}}" param="{{grainSizeKey}}" (change)="changeGrainSize($event)"></mtrm-component>
+        </div>
     </div>
 </div>
 
 <div class="container">
-
-    <div class="sliderContainer">
-        <div class="sliderLabel">Overlap ratio</div>
-        <div id="overlapRatioSlider"></div>
-        <div id="overlapRatioDisplay" class="sliderDisplay"></div>
-    </div>
-
-    <div class="sliderContainer">
-        <div class="sliderLabel">Grain size</div>
-        <div id="grainSizeSlider"></div>
-        <div id="grainSizeDisplay" class="sliderDisplay"></div>
-    </div>
 
     <div class="sliderContainer">
         <div class="sliderLabel">Visualisation</div>
