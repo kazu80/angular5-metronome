@@ -21,9 +21,10 @@ export class VoiceChangerComponent implements OnInit {
     private validGranSizes: Array<number>;
     private grainSize: number;
             pitchRatio: number;
-    private overlapRatio: number;
+            overlapRatio: number;
 
     pitchRatioSetting: string;
+    overlapRatioSetting: string;
 
     constructor() {
         this.spectrumFFTSize   = 128;
@@ -39,6 +40,12 @@ export class VoiceChangerComponent implements OnInit {
         this.pitchRatioSetting = JSON.stringify({
             min : 0.5,
             max : 2,
+            step: 0.01,
+        });
+
+        this.overlapRatioSetting = JSON.stringify({
+            min : 0,
+            max : 0.75,
             step: 0.01,
         });
     }
@@ -80,7 +87,7 @@ export class VoiceChangerComponent implements OnInit {
 
             // Connectしないと音は出ない
             this.audioSources[0].connect(this.pitchShifterProcessor);
-            this.audioSources[0].start(0);
+            // this.audioSources[0].start(0);
         });
 
         bufferLoader2.load();
@@ -159,6 +166,13 @@ export class VoiceChangerComponent implements OnInit {
         const value = val.detail.value;
         if (value) {
             this.pitchRatio = value;
+        }
+    }
+
+    changeOverlapRatio(val) {
+        const value = val.detail.value;
+        if (value) {
+            this.overlapRatio = value;
         }
     }
 }
