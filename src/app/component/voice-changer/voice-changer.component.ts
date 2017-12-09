@@ -19,10 +19,12 @@ export class VoiceChangerComponent implements OnInit {
     private sonogramSmoothing: number;
 
     private validGranSizes: Array<number>;
-            grainSize: number;
-            grainSizeKey: number;
-            pitchRatio: number;
-            overlapRatio: number;
+
+    grainSize: number;
+    grainSizeKey: number;
+    pitchRatio: number;
+    overlapRatio: number;
+    audioSourceIndex: number;
 
     pitchRatioSetting: string;
     overlapRatioSetting: string;
@@ -34,11 +36,12 @@ export class VoiceChangerComponent implements OnInit {
         this.sonogramFFTSize   = 2048;
         this.sonogramSmoothing = 0;
 
-        this.validGranSizes = [256, 512, 1024, 2048, 4096, 8192];
-        this.grainSizeKey   = 2;
-        this.grainSize      = this.validGranSizes[this.grainSizeKey - 1];
-        this.pitchRatio     = 1.0;
-        this.overlapRatio   = 0.50;
+        this.audioSourceIndex = 0;
+        this.validGranSizes   = [256, 512, 1024, 2048, 4096, 8192];
+        this.grainSizeKey     = 2;
+        this.grainSize        = this.validGranSizes[this.grainSizeKey - 1];
+        this.pitchRatio       = 1.0;
+        this.overlapRatio     = 0.50;
 
         this.pitchRatioSetting = JSON.stringify({
             min : 0.5,
@@ -194,6 +197,10 @@ export class VoiceChangerComponent implements OnInit {
             this.grainSize = this.validGranSizes[value - 1];
         }
 
-        console.log(this.grainSize);
+        this.initProcessor();
+
+        if (this.audioSources[this.audioSourceIndex]) {
+            this.audioSources[this.audioSourceIndex].connect(this.pitchShifterProcessor);
+        }
     }
 }
