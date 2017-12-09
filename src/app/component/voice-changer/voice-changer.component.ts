@@ -29,6 +29,7 @@ export class VoiceChangerComponent implements OnInit {
     pitchRatioSetting: string;
     overlapRatioSetting: string;
     grainSizeSetting: string;
+    audioSourcesSetting: string;
 
     constructor() {
         this.spectrumFFTSize   = 128;
@@ -36,7 +37,7 @@ export class VoiceChangerComponent implements OnInit {
         this.sonogramFFTSize   = 2048;
         this.sonogramSmoothing = 0;
 
-        this.audioSourceIndex = 0;
+        this.audioSourceIndex = 1;
         this.validGranSizes   = [256, 512, 1024, 2048, 4096, 8192];
         this.grainSizeKey     = 2;
         this.grainSize        = this.validGranSizes[this.grainSizeKey - 1];
@@ -62,6 +63,11 @@ export class VoiceChangerComponent implements OnInit {
             {id: 4, active: false},
             {id: 5, active: false},
             {id: 6, active: false},
+        ]);
+
+        this.audioSourcesSetting = JSON.stringify([
+            {id: 1, active: false},
+            {id: 2, active: false},
         ]);
     }
 
@@ -199,8 +205,23 @@ export class VoiceChangerComponent implements OnInit {
 
         this.initProcessor();
 
-        if (this.audioSources[this.audioSourceIndex]) {
-            this.audioSources[this.audioSourceIndex].connect(this.pitchShifterProcessor);
+        if (this.audioSources[this.audioSourceIndex - 1]) {
+            this.audioSources[this.audioSourceIndex - 1].connect(this.pitchShifterProcessor);
+        }
+    }
+
+    changeAudioSource(val) {
+        const value = val.detail.value;
+        if (value) {
+            if (this.audioSources[this.audioSourceIndex - 1]) {
+                this.audioSources[this.audioSourceIndex - 1].disconnect();
+            }
+
+            this.audioSourceIndex = value;
+
+            if (this.audioSources[this.audioSourceIndex - 1]) {
+                this.audioSources[this.audioSourceIndex - 1].connect(this.pitchShifterProcessor);
+            }
         }
     }
 }

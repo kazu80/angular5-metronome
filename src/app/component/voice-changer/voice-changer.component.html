@@ -13,6 +13,11 @@
             <mtrm-component title="Grain size" type="lifting" params="{{grainSizeSetting}}" param="{{grainSizeKey}}" (change)="changeGrainSize($event)"></mtrm-component>
         </div>
     </div>
+    <div class="row metronome-content bottom">
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 column">
+            <mtrm-component title="Grain size" type="lifting" params="{{audioSourcesSetting}}" param="{{audioSourceIndex}}" (change)="changeAudioSource($event)"></mtrm-component>
+        </div>
+    </div>
 </div>
 
 <div class="container">
