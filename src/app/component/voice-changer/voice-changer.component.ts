@@ -25,11 +25,13 @@ export class VoiceChangerComponent implements OnInit {
     pitchRatio: number;
     overlapRatio: number;
     audioSourceIndex: number;
+    power: number;
 
     pitchRatioSetting: string;
     overlapRatioSetting: string;
     grainSizeSetting: string;
     audioSourcesSetting: string;
+    powerSetting: string;
 
     constructor() {
         this.spectrumFFTSize   = 128;
@@ -37,12 +39,13 @@ export class VoiceChangerComponent implements OnInit {
         this.sonogramFFTSize   = 2048;
         this.sonogramSmoothing = 0;
 
-        this.audioSourceIndex = 1;
+        this.audioSourceIndex = 2;
         this.validGranSizes   = [256, 512, 1024, 2048, 4096, 8192];
         this.grainSizeKey     = 2;
         this.grainSize        = this.validGranSizes[this.grainSizeKey - 1];
         this.pitchRatio       = 1.0;
         this.overlapRatio     = 0.50;
+        this.power            = 2;
 
         this.pitchRatioSetting = JSON.stringify({
             min : 0.5,
@@ -66,15 +69,19 @@ export class VoiceChangerComponent implements OnInit {
         ]);
 
         this.audioSourcesSetting = JSON.stringify([
-            {id: 1, active: false},
-            {id: 2, active: false},
+            {id: 'file', active: false},
+            {id: 'voice', active: false},
+        ]);
+
+        this.powerSetting = JSON.stringify([
+            {id: 'ON', active: false},
+            {id: 'OFF', active: false},
         ]);
     }
 
     ngOnInit() {
         this.initAudio();
         this.initProcessor();
-        // initSliders();
         // initCanvas();
 
         // window.requestAnimFrame(renderCanvas);
@@ -107,7 +114,7 @@ export class VoiceChangerComponent implements OnInit {
             this.audioSources[0].loop   = true;
 
             // Connectしないと音は出ない
-            this.audioSources[0].connect(this.pitchShifterProcessor);
+            // this.audioSources[0].connect(this.pitchShifterProcessor);
             this.audioSources[0].start(0);
         });
 
@@ -205,7 +212,7 @@ export class VoiceChangerComponent implements OnInit {
 
         this.initProcessor();
 
-        if (this.audioSources[this.audioSourceIndex - 1]) {
+        if (this.power === 1 && this.audioSources[this.audioSourceIndex - 1]) {
             this.audioSources[this.audioSourceIndex - 1].connect(this.pitchShifterProcessor);
         }
     }
@@ -219,8 +226,23 @@ export class VoiceChangerComponent implements OnInit {
 
             this.audioSourceIndex = value;
 
-            if (this.audioSources[this.audioSourceIndex - 1]) {
+            if (this.power === 1 && this.audioSources[this.audioSourceIndex - 1]) {
                 this.audioSources[this.audioSourceIndex - 1].connect(this.pitchShifterProcessor);
+            }
+        }
+    }
+
+    changePower(val) {
+        const value = val.detail.value;
+        if (value) {
+            if (value === 1) {
+                if (this.audioSources[this.audioSourceIndex - 1]) {
+                    this.audioSources[this.audioSourceIndex - 1].connect(this.pitchShifterProcessor);
+                }
+            } else {
+                if (this.audioSources[this.audioSourceIndex - 1]) {
+                    this.audioSources[this.audioSourceIndex - 1].disconnect();
+                }
             }
         }
     }

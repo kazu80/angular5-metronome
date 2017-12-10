@@ -14,42 +14,11 @@
         </div>
     </div>
     <div class="row metronome-content bottom">
-        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 column">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 column">
             <mtrm-component title="Grain size" type="lifting" params="{{audioSourcesSetting}}" param="{{audioSourceIndex}}" (change)="changeAudioSource($event)"></mtrm-component>
         </div>
-    </div>
-</div>
-
-<div class="container">
-
-    <div class="sliderContainer">
-        <div class="sliderLabel">Visualisation</div>
-        <div id="audioVisualisationSlider"></div>
-        <div id="audioVisualisationDisplay" class="sliderDisplay"></div>
-    </div>
-
-    <div class="sliderContainer">
-        <div class="sliderLabel">Audio source</div>
-        <div id="audioSourceSlider"></div>
-        <div id="audioSourceDisplay" class="sliderDisplay"></div>
-    </div>
-
-    <canvas width="512px" height="240px"></canvas>
-
-    <p>This page needs a <a href="https://dvcs.w3.org/hg/audio/raw-file/tip/webaudio/specification.html">Web Audio
-                                                                                                         API</a> enabled
-       browser.
-       Here is an updated list with browser support: <a href="http://caniuse.com/#feat=audio-api">Can I use</a>.</p>
-    <p>
-        In order to use the microphone, you may have to enable a configuration flag:
-    <ul>
-        <li>Go to <em>chrome://flags</em></li>
-        <li>Enable the Web Audio Input option</li>
-        <li>Restart the browser</li>
-    </ul>
-
-
-    <div class="warningContainer">
-        <strong>Use the microphone with headphones or you may get a lot of feedback!</strong>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 column">
+            <mtrm-component title="ON/OFF" type="lifting" params="{{powerSetting}}" param="{{power}}" (change)="changePower($event)"></mtrm-component>
+        </div>
     </div>
 </div>
