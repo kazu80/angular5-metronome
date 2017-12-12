@@ -5,14 +5,14 @@ import {routing} from './app.routing';
 import {AppComponent} from './component/app/app.component';
 import {TopComponent} from './component/metronome/top/top.component';
 import {VoiceChangerComponent} from './component/voice-changer/voice-changer.component';
-
-
+import {SpeechComponent} from './component/metronome/speech/speech.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         TopComponent,
-        VoiceChangerComponent
+        VoiceChangerComponent,
+        SpeechComponent
     ],
     imports     : [
         BrowserModule,
