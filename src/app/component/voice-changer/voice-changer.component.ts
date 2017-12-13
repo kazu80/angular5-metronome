@@ -108,7 +108,7 @@ export class VoiceChangerComponent implements OnInit {
         this.sonogramAudioAnalyser.fftSize               = this.sonogramFFTSize;
         this.sonogramAudioAnalyser.smoothingTimeConstant = this.sonogramSmoothing;
 
-        const bufferLoader2 = new bufferLoader(this.audioContext, ['/assets/audio/voice.mp3'], (bufferList: AudioBuffer) => {
+        const bufferLoader2 = new bufferLoader(this.audioContext, ['/assets/audio/file.m4a'], (bufferList: AudioBuffer) => {
             this.audioSources[0]        = this.audioContext.createBufferSource();
             this.audioSources[0].buffer = bufferList[0];
             this.audioSources[0].loop   = true;
