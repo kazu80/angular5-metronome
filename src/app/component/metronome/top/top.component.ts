@@ -154,4 +154,12 @@ export class TopComponent implements OnInit {
     _metronomeStop(val) {
         this.playObject.stop();
     }
+
+    _beatUp(val) {
+        this.beat = this.beat + 1;
+    }
+
+    _beatDown(val) {
+        this.beat = this.beat - 1;
+    }
 }
