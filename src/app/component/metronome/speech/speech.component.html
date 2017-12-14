@@ -1,8 +1,10 @@
 <link rel="import" href="../../../../assets/bower_components/obvi/voice-button.html">
 <link rel="import" href="../../../../assets/bower_components/audio-player/audio-player.html">
+<link rel="import" href="../../../../assets/web_components/voice-player.html">
 
 <div class="speach-wrapper">
     <div class="speach-button">
+        <voice-player id="voice-player" accent="ja-JP" text="{{speakText}}" isSpeak="{{isSpeak}}"></voice-player>
         <voice-button id="voice-button" cloud-speech-api-key="" autodetect></voice-button>
         <audio-player src="{{sound_file}}" play="{{isPlaySound}}" volume="10"></audio-player>
     </div>

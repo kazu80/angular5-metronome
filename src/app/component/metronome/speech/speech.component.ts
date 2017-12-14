@@ -11,29 +11,49 @@ export class SpeechComponent implements OnInit {
     speechResult: string;
     sound_file: string;
     isPlaySound: boolean;
+    isSpeak: boolean;
+    speakText: string;
 
     constructor(el: ElementRef) {
         this._el = el.nativeElement;
 
         this.sound_file  = '/assets/audio/beep.wav';
         this.isPlaySound = false;
+        this.isSpeak     = false;
+        this.speakText   = '';
     }
 
     ngOnInit() {
         const voiceButton = this._el.querySelector('#voice-button');
+        const voicePlayer = this._el.querySelector('#voice-player');
+
+        voicePlayer.addEventListener('end', () => {
+            this.isSpeak = false;
+        });
 
         voiceButton.addEventListener('onSpeech', (voiceEvent: any) => {
             if (voiceEvent.detail.isFinal) {
                 this.speechResult = voiceEvent.detail.speechResult;
 
-                // response sound
-                this.isPlaySound = true;
-
                 switch (voiceEvent.detail.speechResult) {
-                    case 'okay metronome':
+                    case 'metronome':
+                        this.speakText = 'はい、わたしです。';
+                        this.isSpeak   = true;
+                        break;
+
+                    case 'OK Google':
+                        this.speakText = '誰かと間違っていませんか？わたしは、メトロノームです';
+                        this.isSpeak   = true;
+                        break;
+
+                    case 'up-tempo':
+                        this.speakText = 'テンポをアップしました。';
+                        this.isSpeak   = true;
                         break;
 
                     default:
+                        this.speakText = 'すみません。よくわかりません';
+                        this.isSpeak   = true;
                         break;
                 }
 
@@ -52,6 +72,10 @@ export class SpeechComponent implements OnInit {
                     break;
             }
         });
-    }
 
+        voiceButton.addEventListener('click', () => {
+            // response sound
+            this.isPlaySound = true;
+        });
+    }
 }

@@ -66,15 +66,10 @@
             }
 
             voiceChange () {
-
-                console.log (this.distortion);
-
                 //const distortion = this.context.createWaveShaper();
                 //distortion.curve = new Float32Array;
 
                 this.distortion.curve = new Float32Array ();
-
-                console.log (1);
 
                 this.biquadFilter.gain.value = 0; // reset the effects each time the voiceChange function is run
 

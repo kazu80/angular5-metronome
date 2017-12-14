@@ -1,0 +1,127 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<dom-module id="mtrm-button-play">
+    <template>
+        <style>
+            :host {
+
+            }
+        </style>
+    </template>
+    <script>
+        class VoicePlayer extends Polymer.Element {
+            static get is () { return 'voice-player'; }
+
+            static get properties () {
+                return {
+                    autoplay : {
+                        type : Boolean,
+                        value: false
+                    },
+                    accent   : {
+                        type    : String,
+                        value   : 'en-US',
+                        observer: '_accentChanged',
+                        notify  : true
+                    },
+                    text     : {
+                        type    : String,
+                        value   : 'You are awesome',
+                        observer: '_textChanged',
+                        notify  : true
+                    },
+                    isSpeak  : {
+                        type    : Boolean,
+                        value   : false,
+                        notify  : true,
+                        observer: '_observerSpeak',
+                    },
+                    fireEvent: {
+                        type    : String,
+                        value   : '',
+                        notify  : true,
+                        observer: '_eventChanged',
+                    }
+                }
+            }
+
+            constructor () {
+                super ();
+
+                if ('speechSynthesis' in window) {
+                    this.speech = new SpeechSynthesisUtterance ();
+                }
+                else {
+                    console.error ('Your browser does not support the Web Speech API');
+                }
+            }
+
+            ready () {
+                super.ready ();
+
+                // Initialize attributes
+                this._textChanged ();
+                this._accentChanged ();
+
+                // Initialize event listeners
+                const events = ['start', 'end', 'error', 'pause', 'resume'];
+                events.forEach (this._propagateEvent.bind (this));
+
+                if (this.autoplay) {
+                    this.speak ();
+                }
+            }
+
+            /**
+             * Original
+             */
+            _observerSpeak (least, past) {
+                if (least === 'true') {
+                    this.speak ();
+                }
+                else {
+
+                }
+            }
+
+            _eventChanged (least, past) {
+                this.dispatchEvent (new CustomEvent (least));
+            }
+
+            /**
+             *  Private Methods
+             */
+            _accentChanged () {
+                this.speech.lang = this.accent;
+            }
+
+            _textChanged () {
+                this.speech.text = this.text;
+            }
+
+            _propagateEvent (eventName) {
+                this.speech.addEventListener (eventName, (e) => {
+                    this.fireEvent = eventName;
+                });
+            }
+
+            /* -- Public Methods -------------------------------------------- */
+            speak () {
+                window.speechSynthesis.speak (this.speech);
+            }
+
+            cancel () {
+                window.speechSynthesis.cancel ();
+            }
+
+            pause () {
+                window.speechSynthesis.pause ();
+            }
+
+            resume () {
+                window.speechSynthesis.resume ();
+            }
+        }
+
+        window.customElements.define (VoicePlayer.is, VoicePlayer);
+    </script>
+</dom-module>

@@ -108,16 +108,16 @@
                     //this.animationTempo.play ();
 
                     // count
-                    let count = 1;
+                    this.cnt = 1;
 
                     // sound
                     this.interval = setInterval (() => {
                         //
-                        count % this.beat === 0 ?
+                        this.count % this.beat === 0 ?
                             this.isPlaySoundBeat = true :
                             this.isPlaySound = true;
 
-                        count++;
+                        this.cnt++;
                     }, 60 * 1000 / this.tempo);
                 }
                 else {
