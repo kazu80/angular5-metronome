@@ -113,7 +113,7 @@
                     // sound
                     this.interval = setInterval (() => {
                         //
-                        this.count % this.beat === 0 ?
+                        this.cnt % this.beat === 0 ?
                             this.isPlaySoundBeat = true :
                             this.isPlaySound = true;
 
@@ -147,6 +147,14 @@
                 this.sound_file = latest[0].sound_file;
                 this.sound_file_beat = latest[0].sound_file_beat;
                 this.volume = latest[0].volume;
+            }
+
+            play () {
+                this.isPlayState = true;
+            }
+
+            stop () {
+                this.isPlayState = false;
             }
         }
 

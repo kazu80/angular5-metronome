@@ -42,3 +42,4 @@ testem.log
 Thumbs.db
 
 /src/assets/bower_components/
+/src/assets/web_components/voice-elements-gh-pages/

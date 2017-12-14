@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 
 @Component({
     selector   : 'app-top',
@@ -16,7 +16,12 @@ export class TopComponent implements OnInit {
     volumes: string;
     play_params: string;
 
-    constructor() {
+    private _el: HTMLElement;
+
+    playObject: any;
+
+    constructor(el: ElementRef) {
+        this._el = el.nativeElement;
     }
 
     ngOnInit() {
@@ -37,7 +42,7 @@ export class TopComponent implements OnInit {
             {id: 7, active: false},
             {id: 8, active: false},
         ]);
-        this.sound   = 1;
+        this.sound       = 1;
         this.sounds      = JSON.stringify([
             {id: 1, file: '/assets/sound/s_01.mp3', active: false},
             {id: 2, file: '/assets/sound/s_02.mp3', active: false},
@@ -64,6 +69,8 @@ export class TopComponent implements OnInit {
                 volume         : this.volume
             }
         ]);
+
+        this.playObject = this._el.querySelector('#play');
     }
 
     changeTempo(val) {
@@ -132,4 +139,19 @@ export class TopComponent implements OnInit {
         }
     }
 
+    _tempoUp(val) {
+        this.tempo = this.tempo + 10;
+    }
+
+    _tempoDown(val) {
+        this.tempo = this.tempo - 10;
+    }
+
+    _metronomePlay(val) {
+        this.playObject.play();
+    }
+
+    _metronomeStop(val) {
+        this.playObject.stop();
+    }
 }

@@ -18,10 +18,20 @@
             <mtrm-component title="VOLUME" type="lifting" params="{{volumes}}" param="{{volume}}" (change)="changeVolume($event)"></mtrm-component>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 column">
-            <app-speech></app-speech>
+            <app-speech
+                    (tempoUp)="_tempoUp($event)"
+                    (tempoDown)="_tempoDown($event)"
+                    (metronomePlay)="_metronomePlay($event)"
+                    (metronomeStop)="_metronomeStop($event)"
+            ></app-speech>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 column">
-            <mtrm-component id="play" type="play" params="{{play_params}}" param=""></mtrm-component>
+            <mtrm-component
+                    id="play"
+                    type="play"
+                    params="{{play_params}}"
+                    param=""
+            ></mtrm-component>
         </div>
     </div>
 </div>

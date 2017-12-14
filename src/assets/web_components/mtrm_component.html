@@ -164,12 +164,14 @@
             }
 
             _onDomChange () {
+                /*
                 const el = this.shadowRoot.querySelector ('#playButton');
                 if (el) {
                     el.addEventListener ('play', (e) => {
                         this.dispatchEvent (new CustomEvent ('play'));
                     });
                 }
+                */
             }
 
             _observerType (val) {
@@ -228,7 +230,30 @@
                     this.dispatchEvent (new CustomEvent ('change', {
                         'detail': {'value': latest}
                     }));
+                } else if (this.isTypePlay) {
+                    this.dispatchEvent (new CustomEvent ('play', {
+                        'detail': {'value': latest}
+                    }));
                 }
+            }
+
+            /**
+             * method
+             */
+            play () {
+                if (!this.metronome) {
+                    this.metronome = this.shadowRoot.querySelector ('#playButton');
+                }
+
+                this.metronome.play ();
+            }
+
+            stop () {
+                if (!this.metronome) {
+                    this.metronome = this.shadowRoot.querySelector ('#playButton');
+                }
+
+                this.metronome.stop ();
             }
         }
 

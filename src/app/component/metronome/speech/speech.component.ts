@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
     selector   : 'app-speech',
@@ -6,6 +6,11 @@ import {Component, ElementRef, OnInit} from '@angular/core';
     styleUrls  : ['./speech.component.scss']
 })
 export class SpeechComponent implements OnInit {
+    @Output() tempoUp       = new EventEmitter<boolean>();
+    @Output() tempoDown     = new EventEmitter<boolean>();
+    @Output() metronomePlay = new EventEmitter<boolean>();
+    @Output() metronomeStop = new EventEmitter<boolean>();
+
     private _el: HTMLElement;
 
     speechResult: string;
@@ -49,6 +54,32 @@ export class SpeechComponent implements OnInit {
                     case 'up-tempo':
                         this.speakText = 'テンポをアップしました。';
                         this.isSpeak   = true;
+                        this.tempoUp.emit(true);
+                        break;
+
+                    case 'downtempo':
+                        this.speakText = 'テンポを下げました。';
+                        this.isSpeak   = true;
+                        this.tempoDown.emit(true);
+                        break;
+
+                    case 'Gray':
+                    case 'today':
+                    case 'play':
+                        this.speakText = 'メトロノームはじめます';
+                        this.isSpeak   = true;
+                        setTimeout(() => {
+                            this.metronomePlay.emit(true);
+                        }, 1500);
+                        break;
+
+                    case 'stop':
+                        this.metronomeStop.emit(true);
+
+                        setTimeout(() => {
+                            this.speakText = 'メトロノームを止めました';
+                            this.isSpeak   = true;
+                        }, 500);
                         break;
 
                     default:
