@@ -162,4 +162,10 @@ export class TopComponent implements OnInit {
     _beatDown(val) {
         this.beat = this.beat - 1;
     }
+
+    _soundChange(val) {
+        const a = Math.floor(Math.random() * (4 + 1 - 1)) + 1;
+        console.log(a);
+        this.sound = a;
+    }
 }

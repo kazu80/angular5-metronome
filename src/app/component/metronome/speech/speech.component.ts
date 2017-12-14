@@ -12,6 +12,7 @@ export class SpeechComponent implements OnInit {
     @Output() metronomeStop = new EventEmitter<boolean>();
     @Output() beatUp        = new EventEmitter<boolean>();
     @Output() beatDown      = new EventEmitter<boolean>();
+    @Output() soundChange   = new EventEmitter<boolean>();
 
     private _el: HTMLElement;
 
@@ -77,6 +78,13 @@ export class SpeechComponent implements OnInit {
                         this.beatDown.emit(true);
                         break;
 
+                    case 'sound':
+                    case 'sound change':
+                        this.speakText = 'サウンドを変えました。';
+                        this.isSpeak   = true;
+                        this.soundChange.emit(true);
+                        break;
+
                     case 'Gray':
                     case 'today':
                     case 'play':
@@ -94,6 +102,11 @@ export class SpeechComponent implements OnInit {
                             this.speakText = 'メトロノームを止めました';
                             this.isSpeak   = true;
                         }, 500);
+                        break;
+
+                    case 'thank you':
+                        this.speakText = 'ありがとうございました。みなさま、よいおとしをおむかえください。来年もメトロノームをよろしくお願いします。';
+                        this.isSpeak   = true;
                         break;
 
                     default:

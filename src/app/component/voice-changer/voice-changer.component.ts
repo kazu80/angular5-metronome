@@ -43,8 +43,8 @@ export class VoiceChangerComponent implements OnInit {
         this.validGranSizes   = [256, 512, 1024, 2048, 4096, 8192];
         this.grainSizeKey     = 2;
         this.grainSize        = this.validGranSizes[this.grainSizeKey - 1];
-        this.pitchRatio       = 1.0;
-        this.overlapRatio     = 0.50;
+        this.pitchRatio       = 1.8;
+        this.overlapRatio     = 0.70;
         this.power            = 2;
 
         this.pitchRatioSetting = JSON.stringify({
@@ -220,6 +220,11 @@ export class VoiceChangerComponent implements OnInit {
     changeAudioSource(val) {
         const value = val.detail.value;
         if (value) {
+            if (value === 1) {
+                this.pitchRatio   = 0.6;
+                this.overlapRatio = 0.4;
+            }
+
             if (this.audioSources[this.audioSourceIndex - 1]) {
                 this.audioSources[this.audioSourceIndex - 1].disconnect();
             }
